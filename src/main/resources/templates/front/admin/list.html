@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+
+    <main layout:fragment="content">
+        <h1 th:text="#{도서목록}"></h1>
+        <table>
+            <thead>
+                <tr>
+                    <td>ID</td><td>제목</td><td>저자</td><td>출판사</td><td>출판년도</td><td>주제</td><td>수정</td><td>삭제</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${books}" th:object="${book}">
+                    <td th:text="*{bookSeq}"></td>
+                    <td th:text="*{title}"></td>
+                    <td th:text="*{author.authorName}"></td>
+                    <td th:text="*{publisher}"></td>
+                    <td th:text="*{pubYear}"></td>
+                    <td th:text="*{content}"></td>
+                    <td><a th:href="@{/book/regbook/{seq}(seq=*{bookSeq})}">수정</a></td>
+                    <td><a th:href="@{/book/delete/{seq}(seq=*{bookSeq})}">삭제</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" th:text="#{도서등록}" onClick="location.href=`/book/regbook`"></button><br>
+    </main>
+</html>
