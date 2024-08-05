@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">    <head>
+        <meta charset="UTF-8">
+        <title>타이틀</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/common/style.css}">
+        <script th:src="@{/common/common.js}"></script>
+    </head>
+    <body>
+        <header th:replace="~{front/outlines/_header::common}"></header>
+        <main layout:fragment="content"></main>
+        <footer th:replace="~{front/outlines/_footer::common}"></footer>
+        <iframe name="ifrmHidden" class="dn"></iframe>
+    </body>
+</html>
