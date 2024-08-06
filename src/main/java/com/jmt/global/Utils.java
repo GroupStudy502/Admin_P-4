@@ -11,7 +11,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class Utils {
-
     private final DiscoveryClient discoveryClient;
 
     private final HttpServletRequest request;
@@ -30,11 +29,8 @@ public class Utils {
             String protocol = request.isSecure() ? "https://" : "http://";
              url = protocol + host + "/admin" + url;
         }
-
         return "redirect:" + url;
-
     }
-
      */
 
 }
