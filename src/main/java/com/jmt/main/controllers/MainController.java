@@ -10,6 +10,7 @@ public class MainController {
 
     @GetMapping
     public String index() {
-        return "관리자 메인";
+
+        return "Restcontroller";
     }
 }

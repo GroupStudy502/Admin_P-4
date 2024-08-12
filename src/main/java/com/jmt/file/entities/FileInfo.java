@@ -1,5 +1,6 @@
 package com.jmt.file.entities;
 
+import com.jmt.global.entities.BaseMemberEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileInfo {
+public class FileInfo extends BaseMemberEntity {
     @Id
     @GeneratedValue
     private Long seq; // 서버에 업로드될 파일 이름  - seq.확장자

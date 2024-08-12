@@ -1,4 +1,11 @@
 package com.jmt.file.exceptions;
 
-public class FileNotFoundException {
+import com.jmt.global.exceptions.script.AlertBackException;
+import org.springframework.http.HttpStatus;
+
+public class FileNotFoundException extends AlertBackException {
+    public FileNotFoundException() {
+        super("NotFound.file", HttpStatus.NOT_FOUND);
+        setErrorCode(true);
+    }
 }
