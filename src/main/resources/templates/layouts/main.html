@@ -3,10 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf_token" th:content="${_csrf.token}">
+    <meta name="csrf_header" th:content="${_csrf.headerName}">
     <title>
         <th:block th:if="${pageTitle != null}"
         th:text="${#strings.concat(pageTitle, ' - ')}"></th:block>
-        사이트 제목
+        점메추 관리자 페이지
     </title>
     <link rel="stylesheet" type="text/css" th:href="${@utils.url('/css/style.css')}">
     <link th:if="${addCss != null}" rel="stylesheet" type="text/css"
@@ -19,8 +21,14 @@
 </head>
 <body>
 <header th:replace="~{outlines/_header::common}"></header>
-<main layout:fragment="content"></main>
-<footer th:replace="~{outlines/_footer::common}"></footer>
-<iframe name="ifrmHidden" class="dn"></iframe>
+<main>
+    <aside th:replace="~{outlines/_side::menus}"></aside>
+    <section>
+        <nav th:replace="~{outlines/_submenu::submenus}"></nav>
+        <section  layout:fragment="content"></section>
+    </section>
+</main>
+    <footer th:replace="~{outlines/_footer::common}"></footer>
+    <iframe name="ifrmHidden" class="dn"></iframe>
 </body>
 </html>
