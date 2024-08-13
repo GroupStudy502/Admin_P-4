@@ -17,4 +17,5 @@ public interface CommonConfig {
     default List<MenuDetail> getSubMenus() {
         return Menu.getMenus("config");
     }
+
 }

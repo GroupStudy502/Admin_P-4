@@ -21,7 +21,7 @@ public enum PayMethod {
         return List.of(
                 new String[] {CARD.name(), CARD.title},
                 new String[] {DirectBank.name(), DirectBank.title},
-                new String[] { VBank.name(), VBank.title}
+                new String[] {VBank.name(), VBank.title}
         );
     }
 }

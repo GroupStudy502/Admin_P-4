@@ -15,38 +15,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/config/payment")
 @RequiredArgsConstructor
+@RequestMapping("/config/payment")
 public class PaymentConfigController implements ExceptionProcessor, CommonConfig {
     private final ConfigInfoService infoService;
     private final ConfigSaveService saveService;
 
-    @ModelAttribute("subMenuCode")
+    @ModelAttribute
     public String subMenuCode() {
         return "payment";
     }
 
     @ModelAttribute("payMethods")
-    public List<String[]> payMethods() {
+    public List<String[]> payMethod() {
         return PayMethod.getList();
     }
 
     @GetMapping
     public String index(Model model) {
-
         PaymentConfig form = infoService.get(subMenuCode(), PaymentConfig.class).orElseGet(PaymentConfig::new);
 
         model.addAttribute("paymentConfig", form);
-
         return "config/payment";
     }
 
     @PostMapping
     public String save(PaymentConfig form, Model model) {
-
         saveService.save(subMenuCode(), form);
-
-        model.addAttribute("message", "저장되었습니다.");
+        model.addAttribute("message", "저장되었습니다");
 
         return "config/payment";
     }
