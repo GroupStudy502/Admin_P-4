@@ -1,5 +1,6 @@
 package com.jmt.config.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jmt.config.entities.Configs;
@@ -25,7 +26,7 @@ public class ConfigSaveService {
 
             repository.saveAndFlush(configs);
 
-        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
