@@ -18,13 +18,13 @@
             </tr>
 
             <tr>
-                <th width="180">사인키(SignKey)</th>
+                <th>사인키(SignKey)</th>
                 <td>
                     <input type="text" name="signKey" th:field="*{signKey}">
                 </td>
             </tr>
             <tr>
-                <th width="180">결제수단</th>
+                <th>결제수단</th>
                 <td>
                     <th:block  th:each="pay : ${payMethods}">
                         <input type="checkbox" name="payMethods" th:value="${pay[0]}" th:id="${'pay_' + pay[0]}" th:field="*{payMethods}">
