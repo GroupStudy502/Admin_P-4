@@ -3,9 +3,51 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 
-<main layout:fragment="content">
-    <h1 th:text="#{회원관리}"></h1>
+<section layout:fragment="content">
+    <div th:replace="~{common/_message::message}"></div>
+    <h1>회원관리</h1>
+    <!--[[${members}]]-->
 
-    [[${members}]]
-</main>
+        <table class="table_rows">
+            <thead>
+            <tr>
+                <th>회원번호</th>
+                <th>이메일</th>
+                <th>회원명</th>
+                <th>전화번호</th>
+                <th>권한</th>
+                <th>권한2</th>
+                <th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}" th:object="${member}">
+                <td th:text="*{seq}"></td>
+                <td th:text="*{email}"></td>
+                <td th:text="*{userName}"></td>
+                <td th:text="*{mobile}"></td>
+                <td>
+                    <!--[[${member.authorities}]]-->
+                    <th:block th:each="item : ${member.authorities}" th:object="${item}">
+                        <input type="checkbox" name="authority" th:value="*{authority}" th:id="*{'authority_' + authority}" >
+                        <label th:for="*{'authority_' + authority}" th:text="*{authority.title}"></label>
+                    </th:block>
+                </td>
+                <td>
+                    <th:block th:each="item : ${member.authorities}" th:object="${item}">
+                        <input type="checkbox" th:checked="true" th:text="*{authority.title}">
+                    </th:block>
+                </td>
+                <td>
+                    <a th:href="${@utils.redirectUrl('/member/update/' + member.seq)}" class="sbtn"><i class="xi-pen"></i>권한 수정</a>
+                    <a th:href="${@utils.redirectUrl('/member/delete/' + member.seq)}" class="sbtn"><i class="xi-pen"></i>회원 삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="submit_btns">
+            <button type="reset" class="btn">다시입력</button>
+            <button type="submit" class="btn">저장하기</button>
+        </div>
+</section>
 </html>
