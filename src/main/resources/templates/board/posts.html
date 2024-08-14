@@ -2,7 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
-<section layout:fragment="content">
 
+<section layout:fragment="content">
+    <div th:replace="~{common/_message::message}"></div>
+    <h1>게시물 관리</h1>
+    <!--[[${posts}]]-->
+
+    <table class="table_rows">
+        <thead>
+        <tr>
+            <th>글번호</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>분류</th>
+            <th>권한2</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}" th:object="${post}">
+            <td th:text="*{seq}"></td>
+            <td th:text="*{poster}"></td>
+            <td th:text="*{subject}"></td>
+            <td th:text="*{content}"></td>
+            <td th:text="*{category}"></td>
+            <td>
+                <!--
+                <th:block th:each="item : ${member.authorities}" th:object="${item}">
+                    <input type="checkbox" name="authority" th:value="*{authority}" th:id="*{'authority_' + authority}" >
+                    <label th:for="*{'authority_' + authority}" th:text="*{authority.title}"></label>
+                </th:block>
+                -->
+            </td>
+            <td>
+                <a th:href="${@utils.redirectUrl('/posts/update/' + seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
+                <a th:href="${@utils.redirectUrl('/posts/delete/' + seq)}" class="sbtn"><i class="xi-pen"></i>글삭제</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="submit_btns">
+        <button type="reset" class="btn">다시입력</button>
+        <button type="submit" class="btn">저장하기</button>
+    </div>
 </section>
 </html>

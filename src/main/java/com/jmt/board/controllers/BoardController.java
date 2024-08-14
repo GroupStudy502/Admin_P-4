@@ -27,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController implements ExceptionProcessor {
 
+
     private final BoardConfigSaveService configSaveService;
     private final BoardConfigInfoService configInfoService;
     private final BoardConfigDeleteService configDeleteService;
@@ -138,18 +139,6 @@ public class BoardController implements ExceptionProcessor {
     }
 
     /**
-     * 게시글 관리
-     *
-     * @return
-     */
-    @GetMapping("/posts")
-    public String posts(Model model) {
-        commonProcess("posts", model);
-
-        return "board/posts";
-    }
-
-    /**
      * 공통 처리
      *
      * @param mode
@@ -183,4 +172,6 @@ public class BoardController implements ExceptionProcessor {
         //model.addAttribute("subMenuCode", mode);
         //model.addAttribute("addScript", addScript);
     }
+
+
 }
