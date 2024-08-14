@@ -1,5 +1,7 @@
 package com.jmt.global;
 
+import com.jmt.member.entities.JwtToken;
+import com.jmt.member.repository.JwtTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
@@ -22,6 +24,13 @@ public class Utils {
     private final DiscoveryClient discoveryClient;
     private final MessageSource messageSource;
     private final HttpServletRequest request;
+    private final JwtTokenRepository jwtTokenRepository;
+
+    public String getToken() {
+        JwtToken jwtToken = jwtTokenRepository.findById(request.getSession().getId()).orElse(null);
+
+        return jwtToken == null ? null : jwtToken.getToken();
+    }
 
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
