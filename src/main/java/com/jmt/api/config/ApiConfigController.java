@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ApiConfigController implements RestExceptionProcessor {
 
-    @Value("${secret}")
+    @Value("${secretKey}")
     private String secretKey;
 
     private final PasswordEncoder encoder;
