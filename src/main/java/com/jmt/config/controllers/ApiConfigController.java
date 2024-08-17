@@ -18,22 +18,12 @@ public class ApiConfigController  implements ExceptionProcessor,CommonConfig {
 
     private final ConfigSaveService saveService;
     private final ConfigInfoService infoService;
-/*
-    @ModelAttribute("menuCode")
-    public String getMenuCode() {
-        return "config";
-    }
-*/
+
     @ModelAttribute("subMenuCode")
     public String getSubMenuCode() {
         return "api";
     }
-/*
-    @ModelAttribute("subMenus")
-    public List<MenuDetail> getSubMenus() {
-        return Menu.getMenus("config");
-    }
-*/
+
     @ModelAttribute("pageTitle")
     public String getPageTitle() {
         return "API 설정";
@@ -42,7 +32,6 @@ public class ApiConfigController  implements ExceptionProcessor,CommonConfig {
     @GetMapping
     public String index(Model model) {
 
-        System.out.println("-------/config/api-----------------");
         ApiConfig config = infoService.get("apiConfig", ApiConfig.class).orElseGet(ApiConfig::new);
 
         model.addAttribute("apiConfig", config);

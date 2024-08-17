@@ -16,7 +16,6 @@
             <th>제목</th>
             <th>내용</th>
             <th>분류</th>
-            <th>권한2</th>
             <th>관리</th>
         </tr>
         </thead>
@@ -27,14 +26,6 @@
             <td th:text="*{subject}"></td>
             <td th:text="*{content}"></td>
             <td th:text="*{category}"></td>
-            <td>
-                <!--
-                <th:block th:each="item : ${member.authorities}" th:object="${item}">
-                    <input type="checkbox" name="authority" th:value="*{authority}" th:id="*{'authority_' + authority}" >
-                    <label th:for="*{'authority_' + authority}" th:text="*{authority.title}"></label>
-                </th:block>
-                -->
-            </td>
             <td>
                 <a th:href="${@utils.redirectUrl('/posts/update/' + seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
                 <a th:href="${@utils.redirectUrl('/posts/delete/' + seq)}" class="sbtn"><i class="xi-pen"></i>글삭제</a>
