@@ -22,32 +22,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ApiConfigController implements RestExceptionProcessor {
 
-    @Value("${secretKey}")
+    private final ConfigInfoService infoService;
+    @Value("$secretKey")
     private String secretKey;
 
     private final PasswordEncoder encoder;
-    private final ConfigInfoService infoService;
     private final HttpServletRequest request;
 
     @GetMapping
     public ResponseEntity<JSONData> siteConfig() {
         checkToken();
-
         BasicConfig config = infoService.get("basic", BasicConfig.class).orElse(null);
-
         JSONData data = new JSONData();
         data.setSuccess(config != null);
-        if (config == null) {
+        if(config == null) {
             data.setStatus(HttpStatus.NOT_FOUND);
         }
         data.setData(config);
-
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
     @GetMapping("/apikeys")
     public ResponseEntity<JSONData> apiKeys() {
-
         checkToken();
 
         ApiConfig config = infoService.get("apiConfig", ApiConfig.class).orElse(null);
@@ -64,18 +60,19 @@ public class ApiConfigController implements RestExceptionProcessor {
 
     private void checkToken() {
         /**
-         * 요청 헤더
-         * Authorization: Bearer BCrypt 해시
+         * 요청헤더
+         * Authorization : Bearer Bcrypt 해시
          */
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken == null || !StringUtils.hasText(bearerToken.trim())) {
+        if(bearerToken == null || !StringUtils.hasText(bearerToken.trim())) {
             throw new UnAuthorizedException();
-        }
 
+        }
         String token = bearerToken.substring(7);
-        if (!encoder.matches(secretKey, token)) {
+        if(encoder.matches(secretKey, token)) {
             throw new UnAuthorizedException();
         }
     }
+
 
 }
