@@ -9,7 +9,7 @@
 
     <form name="frmSave" method="post" th:action="${@utils.redirectUrl('/config/api')}" autocomplete="off" th:object="${apiConfig}">
         <h2>서울관광재단 API</h2>
-        <table class="table_cols">
+        <table class="table_cols mb30">
             <tr>
                 <th width="180">서비스 Key (전용Token)</th>
                 <td>
@@ -19,11 +19,20 @@
         </table>
 
         <h2>카카오 Map 앱키</h2>
-        <table class="table_cols">
+        <table class="table_cols mb30">
             <tr>
                 <th width="180">Javascript 키</th>
                 <td>
                     <input type="text" name="kakaoJavascriptKey" th:field="*{kakaoJavascriptKey}">
+                </td>
+            </tr>
+        </table>
+        <h2>HuggingFace 토큰</h2>
+        <table class="table_cols mb30">
+            <tr>
+                <th width="180">Access Token</th>
+                <td>
+                    <input type="text" name="huggingfaceAccessToken" th:field="*{huggingfaceAccessToken}">
                 </td>
             </tr>
         </table>

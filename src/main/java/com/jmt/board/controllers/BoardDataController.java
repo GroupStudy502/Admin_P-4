@@ -7,7 +7,6 @@ import com.jmt.board.entities.BoardData;
 import com.jmt.global.Utils;
 import com.jmt.global.exceptions.UnAuthorizedException;
 import com.jmt.global.rests.JSONData;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -16,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ public class BoardDataController
     private final Utils utils;
 
     @GetMapping()
-    public String dataList(HttpServletRequest req) throws JsonProcessingException {
+    public String dataList(Model model) throws JsonProcessingException {
 
         List<ServiceInstance> instances = discoveryClient.getInstances("api-service");
         if (instances.isEmpty()) {
@@ -70,7 +70,7 @@ public class BoardDataController
         List<BoardData> items = om.readValue(jsonString, new TypeReference<List<BoardData>>() {});
         System.out.println(items);
 
-        req.setAttribute("posts", items);
+        model.addAttribute("posts", items);
         return "board/posts";
     }
 }
