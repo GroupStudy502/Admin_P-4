@@ -41,6 +41,8 @@ public class PaymentConfigController implements ExceptionProcessor, CommonConfig
 
     @PostMapping
     public String save(PaymentConfig form, Model model) {
+        System.out.println("==payment save====form===");
+        System.out.println(form);
         saveService.save(subMenuCode(), form);
         model.addAttribute("message", "저장되었습니다");
 

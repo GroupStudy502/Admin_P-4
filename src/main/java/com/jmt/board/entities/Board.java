@@ -101,7 +101,6 @@ public class Board extends BaseMemberEntity {
      *
      * @return
      */
-
     @JsonIgnore
     public List<String> getCategories() {
         List<String> categories = new ArrayList<>();
