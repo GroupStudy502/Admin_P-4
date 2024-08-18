@@ -1,5 +1,6 @@
 package com.jmt.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jmt.file.entities.FileInfo;
 import com.jmt.global.entities.BaseMemberEntity;
 import com.jmt.member.constants.Authority;
@@ -100,6 +101,8 @@ public class Board extends BaseMemberEntity {
      *
      * @return
      */
+
+    @JsonIgnore
     public List<String> getCategories() {
         List<String> categories = new ArrayList<>();
 
