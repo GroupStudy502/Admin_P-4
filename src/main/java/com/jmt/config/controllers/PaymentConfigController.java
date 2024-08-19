@@ -28,6 +28,7 @@ public class PaymentConfigController implements ExceptionProcessor, CommonConfig
 
     @ModelAttribute("payMethods")
     public List<String[]> payMethod() {
+
         return PayMethod.getList();
     }
 

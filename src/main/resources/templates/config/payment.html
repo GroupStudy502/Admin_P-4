@@ -26,7 +26,6 @@
             <tr>
                 <th>결제수단</th>
                 <td>
-                    |[[*{payMethods}]]|
                     <th:block  th:each="pay : ${payMethods}">
                         <input type="checkbox" name="payMethods" th:value="${pay[0]}" th:id="${'pay_' + pay[0]}" th:field="*{payMethods}">
                         <label th:for="${'pay_' + pay[0]}" th:text="${#messages.msg(pay[1])}"></label>
