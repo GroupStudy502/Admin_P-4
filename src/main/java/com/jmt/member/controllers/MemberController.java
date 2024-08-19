@@ -68,11 +68,12 @@ public class MemberController {
 
         List<Authority> allAuthorities = List.of(Authority.ADMIN, Authority.USER, Authority.ALL);
         model.addAttribute("allAuthorities", allAuthorities);
+        model.addAttribute("addScript", List.of("member"));
 
         return "member/list";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/authorities/save")
     public String update(MemberAuthorities form, Model model) {
 
 
