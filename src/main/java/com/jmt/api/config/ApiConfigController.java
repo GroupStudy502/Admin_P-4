@@ -1,7 +1,6 @@
 package com.jmt.api.config;
 
 import com.jmt.config.controllers.ApiConfig;
-import com.jmt.config.controllers.BasicConfig;
 import com.jmt.config.service.ConfigInfoService;
 import com.jmt.global.exceptions.RestExceptionProcessor;
 import com.jmt.global.exceptions.UnAuthorizedException;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,16 +29,23 @@ public class ApiConfigController implements RestExceptionProcessor {
     private final PasswordEncoder encoder;
     private final HttpServletRequest request;
 
-    @GetMapping
-    public ResponseEntity<JSONData> siteConfig() {
+    @GetMapping({"/{mode}", "/"})
+    public ResponseEntity<JSONData> config(@PathVariable(value = "mode", required = false) String mode) {
         checkToken();
-        BasicConfig config = infoService.get("basic", BasicConfig.class).orElse(null);
+
+        mode = StringUtils.hasText(mode) ? mode : "basic";
+
+        if (mode.equals("apikeys")) mode = "apiConfig";
+
+        Object config = infoService.get(mode, Object.class).orElse(null);
+
         JSONData data = new JSONData();
         data.setSuccess(config != null);
-        if(config == null) {
+        if (config == null) {
             data.setStatus(HttpStatus.NOT_FOUND);
         }
         data.setData(config);
+
         return ResponseEntity.status(data.getStatus()).body(data);
     }
 
