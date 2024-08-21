@@ -1,6 +1,5 @@
 package com.jmt.api.config;
 
-import com.jmt.config.controllers.PaymentConfig;
 import com.jmt.config.service.ConfigInfoService;
 import com.jmt.global.exceptions.RestExceptionProcessor;
 import com.jmt.global.exceptions.UnAuthorizedException;
