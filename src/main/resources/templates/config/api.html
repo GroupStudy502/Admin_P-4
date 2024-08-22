@@ -27,12 +27,14 @@
                 </td>
             </tr>
         </table>
-        <h2>HuggingFace 토큰</h2>
+        <h2>HuggingFace 토큰
+            ( API 사용 여부 <input type="checkbox"  th:checked="*{useHuggingFace}" th:field="*{useHuggingFace}">)</h2>
         <table class="table_cols mb30">
             <tr>
                 <th width="180">Access Token</th>
                 <td>
                     <input type="text" name="huggingfaceAccessToken" th:field="*{huggingfaceAccessToken}">
+
                 </td>
             </tr>
         </table>
