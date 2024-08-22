@@ -13,6 +13,6 @@ public class MessageConfig {
         ms.setUseCodeAsDefaultMessage(true);
         ms.setDefaultEncoding("UTF-8");
         ms.setBasenames("messages.commons", "messages.validations", "messages.errors"); //수정
-        return ms;
+        return ms; //커밋
     }
 }
