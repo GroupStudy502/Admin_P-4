@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+//@EnableMethodSecurity
+//@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -26,7 +28,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(c -> {
-                    c.requestMatchers("/js/**", "/css/**", "/images/**", "/logout", "/api/board/config/**", "/api/config/**").permitAll()
+                    c.requestMatchers("/js/**",
+                                    "/css/**",
+                                    "/images/**",
+                                    "/logout",
+                                    "/api/board/config/**",
+                                    "/member/aaa/save",
+                                    "/member/authorities/save",
+                                    "/api/config/**").permitAll()
                             .anyRequest().hasAnyAuthority("ADMIN");
                 });
 

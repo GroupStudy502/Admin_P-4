@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,10 +75,14 @@ public class MemberController {
     }
 
     @PostMapping("/authorities/save")
-    public String update(MemberAuthorities form, Model model) {
-
-
+    public String update(MemberAuthorities form, Errors errors) {
+        System.out.println(form);
+        System.out.println(form.getMemberSeq());
         return "member/list";
     }
 
+    @PostMapping("/aaa/save")
+    public void update(MemberAuthorities form) {
+        System.out.println("update");
+    }
 }
