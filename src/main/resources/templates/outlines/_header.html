@@ -7,15 +7,17 @@
         </section>
         <section class="btn_area">
             <th:block sec:authorize="isAuthenticated()">
-                <!--<span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>-->
-                <span th:text="${#authentication.name}"></span>
+
+                <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/>
+                <!--<span th:text="${#authentication.name}"></span>-->
+                [
                 <th:block th:each="item, status : ${#authentication.authorities}" th:object="${item}">
                     <span th:if="${item.authority.contains('ADMIN')}" th:text="${'관리자'}"></span>
                     <span th:if="${item.authority.contains('USER')}" th:text="${'일반사용자'}"></span>
                     <span th:if="${item.authority.contains('ALL')}" th:text="${'모든'}"></span>
                 </th:block>
+                ]
 
-                ([[${loggedMember}]])
                 <a th:href="${@utils.redirectUrl('/logout')}">로그아웃</a>
             </th:block>
         </section>    </header>

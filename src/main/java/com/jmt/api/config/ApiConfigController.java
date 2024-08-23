@@ -1,6 +1,6 @@
 package com.jmt.api.config;
 
-import com.jmt.config.controllers.PaymentConfig;
+import com.jmt.config.controllers.ApiConfig;
 import com.jmt.config.service.ConfigInfoService;
 import com.jmt.global.exceptions.RestExceptionProcessor;
 import com.jmt.global.exceptions.UnAuthorizedException;
@@ -64,6 +64,21 @@ public class ApiConfigController implements RestExceptionProcessor {
         if(encoder.matches(secretKey, token)) {
             throw new UnAuthorizedException();
         }
+    }
+    @GetMapping({"/useHugg"}) // HuggingFace 사용 여부는 secret 체크 하지 않음
+    public ResponseEntity<JSONData> configUseHugg() {
+
+        ApiConfig config = infoService.get("apiConfig", ApiConfig.class).orElse(null);
+        Boolean useHuggingFace = config.getUseHuggingFace();
+        JSONData data = new JSONData();
+        data.setSuccess(useHuggingFace != null);
+        if (useHuggingFace == null) {
+            data.setStatus(HttpStatus.NOT_FOUND);
+        }
+        data.setData(config.getUseHuggingFace());
+
+        return ResponseEntity.status(data.getStatus()).body(data);
+
     }
 
 
