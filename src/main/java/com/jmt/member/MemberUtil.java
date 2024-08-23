@@ -3,6 +3,7 @@ package com.jmt.member;
 import com.jmt.member.constants.Authority;
 import com.jmt.member.entities.Authorities;
 import com.jmt.member.entities.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class MemberUtil {
+
 
     public boolean isLogin() {
         return getMember() != null;
