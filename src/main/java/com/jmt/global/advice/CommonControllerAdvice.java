@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @RequiredArgsConstructor
-@ControllerAdvice("org.jmt")
+@ControllerAdvice("com.jmt")
 public class CommonControllerAdvice {
     private final MemberUtil memberUtil;
 
