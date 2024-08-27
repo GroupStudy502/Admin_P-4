@@ -28,6 +28,11 @@ public class Menu {
                 new MenuDetail("add", "게시판등록", "/board/add"),
                 new MenuDetail("posts", "게시글관리", "/board/posts")
         ));
+
+        menus.put("reservation", Arrays.asList(
+                new MenuDetail("list", "예약목록", "/reservation"),
+                new MenuDetail("edit", "예약변경", "/reservation/edit")
+        ));
     }
 
     public static List<MenuDetail> getMenus(String code) {
