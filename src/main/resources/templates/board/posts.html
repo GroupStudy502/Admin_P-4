@@ -24,7 +24,8 @@
             <td th:text="*{seq}"></td>
             <td th:text="*{poster}"></td>
             <td th:text="*{subject}"></td>
-            <td th:text="*{content}"></td>
+            <td th:if="*{#strings.length(content) >= 50}" th:text="*{#strings.concat(#strings.substring(content, 0,49), ' ...')}"></td>
+            <td th:if="*{#strings.length(content) < 50}" th:text="*{content}"></td>
             <td th:text="*{category}"></td>
             <td>
                 <a th:href="${@utils.redirectUrl('/posts/update/' + seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
