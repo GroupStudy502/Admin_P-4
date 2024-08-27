@@ -30,7 +30,7 @@ public class MemberUtil {
     public Member getMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo)
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo)
             return memberInfo.getMember();
 
         return null;
