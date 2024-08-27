@@ -1,11 +1,14 @@
 package com.jmt.board.entities;
 
+import com.jmt.file.entities.FileInfo;
 import com.jmt.global.entities.BaseEntity;
 import com.jmt.member.entities.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -23,6 +26,7 @@ public class BoardData extends BaseEntity {
     private String subject;
     private String content;
     private int viewCount; // 조회수
+    private int commentCount; // 댓글 수
     private boolean editorView; // 에디터를 사용해서 글 작성했는지 여부
     private String ip; // IP 주소
     private String ua; // User-Agent
@@ -35,4 +39,19 @@ public class BoardData extends BaseEntity {
 
     private String longText1; // 여러줄 텍스트 추가 필드1
     private String longText2; // 여러줄 텍스트 추가 필드2
+    private List<FileInfo> editorImages;
+
+    private List<FileInfo> attachFiles;
+
+    private boolean editable; // 수정, 삭제 가능 여부
+
+    private boolean commentable; // 댓글 작성 가능 여부
+
+    private boolean showEdit; // 글쓰기,수정 버튼 노출 여부
+
+    private boolean showDelete; // 글삭제 버튼 노출 여부
+
+    private boolean showList; // 글목록 버튼 노출 여부
+
+    private boolean mine; // 게시글 소유자
 }
