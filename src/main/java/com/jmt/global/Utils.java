@@ -1,13 +1,17 @@
 package com.jmt.global;
 
+import com.jmt.global.exceptions.UnAuthorizedException;
 import com.jmt.member.entities.JwtToken;
 import com.jmt.member.repository.JwtTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -25,6 +29,21 @@ public class Utils {
     private final MessageSource messageSource;
     private final HttpServletRequest request;
     private final JwtTokenRepository jwtTokenRepository;
+    private final HttpSession session;
+
+    public HttpHeaders getCommonHeaders(String method) {
+        JwtToken jwtToken =  jwtTokenRepository.findById(session.getId()).orElseThrow(UnAuthorizedException::new);
+        //JwtToken jwtToken = new JwtToken();
+        //jwtToken.setToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMDFAdGVzdC5jb20iLCJleHAiOjE3MjQ2NjMzMjh9.iJH7h9K4kj93P_Hu819LE6ohB4fR4_73li0z3IWeh-PhXwJA1H4u7ugOE1soFYcAFHXLZL90wKaXkVVafCBszQ");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwtToken.getToken());
+        if (!List.of("GET", "DELETE").contains(method)) {  //GET, DELETE 외응 모두 body 있다
+            headers.setContentType(MediaType.APPLICATION_JSON);
+        }
+
+        return headers;
+    }
 
     public String getToken() {
         JwtToken jwtToken = jwtTokenRepository.findById(request.getSession().getId()).orElse(null);
@@ -52,7 +71,15 @@ public class Utils {
         });
         return String.format("%s%s", instances.get(0).getUri().toString(), url);
     }
+    public String url(String url, String serviceId) {
+        List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
+        try {
+            return String.format("%s%s", instances.get(0).getUri().toString(), url);
+        } catch (Exception e) {
+            return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        }
+    }
     public String redirectUrl(String url) {
         String _fromGateway = Objects.requireNonNullElse(request.getHeader("from-gateway"), "false");
         String gatewayHost = Objects.requireNonNullElse(request.getHeader("gateway-host"), "");
