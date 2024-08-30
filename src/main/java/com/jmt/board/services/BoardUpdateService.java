@@ -34,7 +34,7 @@ public class BoardUpdateService {
 
         try {
             String jsonBody = om.writeValueAsString(params);
-            HttpHeaders headers = utils.getCommonHeaders("PATHC");
+            HttpHeaders headers = utils.getCommonHeaders("PATCH");
             HttpEntity<String> request = new HttpEntity<>(jsonBody, headers);
             ResponseEntity<String> response = restTemplate.exchange(URI.create(url), HttpMethod.PATCH, request, String.class);
 

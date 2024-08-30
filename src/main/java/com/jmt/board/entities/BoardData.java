@@ -1,5 +1,7 @@
 package com.jmt.board.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jmt.file.entities.FileInfo;
 import com.jmt.global.entities.BaseEntity;
 import com.jmt.member.entities.Member;
@@ -14,6 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BoardData extends BaseEntity {
     private Long seq;
     private String gid;
@@ -39,10 +42,10 @@ public class BoardData extends BaseEntity {
 
     private String longText1; // 여러줄 텍스트 추가 필드1
     private String longText2; // 여러줄 텍스트 추가 필드2
+    @JsonIgnore
     private List<FileInfo> editorImages;
-
+    @JsonIgnore
     private List<FileInfo> attachFiles;
-
     private boolean editable; // 수정, 삭제 가능 여부
 
     private boolean commentable; // 댓글 작성 가능 여부

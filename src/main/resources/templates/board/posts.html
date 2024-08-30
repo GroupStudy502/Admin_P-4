@@ -5,9 +5,52 @@
 
 <section layout:fragment="content">
     <div th:replace="~{common/_message::message}"></div>
-    <h1>게시물 관리</h1>
-    <!--[[${posts}]]-->
+    <h1>게시글 관리</h1>
+    <h2>게시글 조회</h2>
+    <form name="frmSearch" th:action="${@utils.redirectUrl('/board/posts')}" autocomplete="off" th:object="${boardDataSearch}">
+    <table class="table_cols mb30">
+        <tr>
+            <th>키워드</th>
+            <td>
+                <div class="input_grp">
+                    <select name="sopt" th:field="*{sopt}">
+                        <option value="ALL">통합검색</option>
+                        <option value="bid">게시판 ID</option>
+                        <option value="NAME">작성자</option>
+                        <option value="SUBJECT">제목</option>
+                        <option value="CONTENT">내용</option>
+                    </select>
+                    <input type="text" name="skey" th:field="*{skey}">
+                </div>
+            </td>
+            <th>목록수</th>
+            <td>
+                <div class="input_grp">
+                    <select name="limit" th:field="*{limit}">
+                        <option value="10">10개</option>
+                        <option value="20">20개</option>
+                        <option value="30">30개</option>
+                    </select>
+                </div>
+            </td>
+            <th>정렬기준</th>
+            <td>
+                <div class="input_grp">
+                    <select name="sort" th:field="*{sort}">
+                        <option value="seq_DESC">최근순</option>
+                        <option value="poster_ASC">작성자순</option>
+                        <option value="subject_ASC">제목순</option>
+                    </select>
+                </div>
+            </td>
 
+        </tr>
+    </table>
+    <div class="search_btn">
+        <button type="submit" class="btn">검색하기</button>
+    </div>
+
+    </form>
     <table class="table_rows">
         <thead>
         <tr>
@@ -15,28 +58,30 @@
             <th>작성자</th>
             <th>제목</th>
             <th>내용</th>
-            <th>분류</th>
+            <th>삭제일자</th>
             <th>관리</th>
         </tr>
         </thead>
         <tbody>
+        <tr th:if="${posts == null || posts.isEmpty()}">
+            <td class="no-data" colspan="7">조회된 게시글이 없습니다.</td>
+        </tr>
         <tr th:each="post : ${posts}" th:object="${post}">
             <td th:text="*{seq}"></td>
             <td th:text="*{poster}"></td>
             <td th:text="*{subject}"></td>
-            <td th:if="*{#strings.length(content) >= 50}" th:text="*{#strings.concat(#strings.substring(content, 0,49), ' ...')}"></td>
-            <td th:if="*{#strings.length(content) < 50}" th:text="*{content}"></td>
-            <td th:text="*{category}"></td>
+            <td th:if="*{#strings.length(content) >= 40}" th:text="*{#strings.concat(#strings.substring(content, 0,39), ' ...')}"></td>
+            <td th:if="*{#strings.length(content) < 40}" th:text="*{content}"></td>
+            <td th:text="*{deletedAt}"></td>
             <td>
-                <a th:href="${@utils.redirectUrl('/posts/update/' + seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
-                <a th:href="${@utils.redirectUrl('/posts/delete/' + seq)}" class="sbtn"><i class="xi-pen"></i>글삭제</a>
+                <a th:href="${@utils.redirectUrl('/board/posts/update/' + post.seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
+                <a th:if="*{deletedAt == null}" th:href="${@utils.redirectUrl('/board/posts/delete/' + post.seq + '?mode=delete')}" class="sbtn"><i class="xi-pen"></i>글삭제</a>
+                <a th:if="*{deletedAt != null}" th:href="${@utils.redirectUrl('/board/posts/delete/' + post.seq + '?mode=complete')}" class="sbtn"><i class="xi-pen"></i>완전삭제</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <div class="submit_btns">
-        <button type="reset" class="btn">다시입력</button>
-        <button type="submit" class="btn">저장하기</button>
-    </div>
+    <th:block th:replace="~{common/_pagination::pagination}"></th:block>
+
 </section>
 </html>
