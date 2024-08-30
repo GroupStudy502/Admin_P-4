@@ -12,10 +12,25 @@ const commonLib = {
         const csrfToken = document.querySelector("meta[name='csrf_token']")?.content?.trim();
         const csrfHeader = document.querySelector("meta[name='csrf_header']")?.content?.trim();
         let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
+        let fromGateway = document.querySelector("meta[name='from-gateway']")?.content;
+        let gatewayHost = document.querySelector("meta[name='gateway-host']")?.content;
+        //alert("fromGateway: " + fromGateway);
+        //alert("fromGateway: " + fromGateway);
+
         rootUrl = rootUrl === '/' ? '' : rootUrl;
 
-        url = location.protocol + "//" + location.host + rootUrl + url;
+        if (!/^http[s]?:/i.test(rootUrl)) {
+            url = location.protocol + "//" + location.host + rootUrl + location.pathname + url;
+        }
+        /*
+        if (!/^http[s]?/i.test(url)) {
+            let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
+            rootUrl = rootUrl === '/' ? '' : rootUrl;
 
+            url = rootUrl.includes("http") ? rootUrl + url.replace("/", "") : location.protocol + "//" + location.host + url;
+        }
+        alert("url:" + url);
+        */
         method = method.toUpperCase();
         if (method === 'GET') {
             data = null;
@@ -37,6 +52,8 @@ const commonLib = {
         if (data) options.body = data;
         if (headers) options.headers = headers;
 
+        alert(url);
+        alert(csrfToken);
         return new Promise((resolve, reject) => {
             fetch(url, options)
                 .then(res => responseType === 'text' ? res.text() : res.json()) // res.json() - JSON / res.text() - 텍스트

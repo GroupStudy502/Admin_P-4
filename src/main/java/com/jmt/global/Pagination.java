@@ -1,8 +1,10 @@
 package com.jmt.global;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pagination {
 
     private int page;

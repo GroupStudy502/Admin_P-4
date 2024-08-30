@@ -4,11 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.board.entities.BoardData;
+import com.jmt.board.services.BoardDataService;
+import com.jmt.board.services.BoardInfoService;
+import com.jmt.global.ListData;
+import com.jmt.global.Pagination;
 import com.jmt.global.Utils;
-import com.jmt.global.exceptions.UnAuthorizedException;
 import com.jmt.global.rests.JSONData;
+import com.jmt.menus.Menu;
+import com.jmt.menus.MenuDetail;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,47 +20,77 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
+
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/board/posts")
+@RequestMapping("/board")
 public class BoardDataController
 {
-
-    private final DiscoveryClient discoveryClient;
+    private final BoardInfoService boardInfoService;
+    private final BoardDataService boardDataService;
     private final RestTemplate restTemplate;
     private final ObjectMapper om;
     private final Utils utils;
 
-    @GetMapping()
+    @ModelAttribute("menuCode")
+    public String getMenuCode() { // 주 메뉴 코드
+        return "board";
+    }
+
+    @ModelAttribute("subMenus")
+    public List<MenuDetail> getSubMenus() { // 서브 메뉴
+        return Menu.getMenus("board");
+    }
+
+    @GetMapping("/posts")
+    public String dataList2(@ModelAttribute BoardDataSearch search, Model model)  {
+        if(search.getLimit() == 0) search.setLimit(20); //디폴트 limit
+        ListData<BoardData> data = boardInfoService.getList(search);
+        List<BoardData> items = data.getItems();
+        Pagination pagination = data.getPagination();
+
+
+        model.addAttribute("posts", items);
+        model.addAttribute("pagination", pagination);
+
+        return "board/posts";
+    }
+    @GetMapping("/posts/delete/{seq}")
+    public String deletePost(@PathVariable("seq") Long seq, @RequestParam("mode") String mode, BoardDataSearch search, Model model ) {
+
+        System.out.println("mode: " + mode);
+        BoardData post = boardDataService.deleteBoardData(seq, mode);
+
+        if(post.getSeq() != null && Objects.equals(post.getSeq(), seq)) {
+            model.addAttribute("message", "삭제 성공");
+        } else {
+            model.addAttribute("message", "삭제 실패");
+        }
+
+        return "redirect:" + utils.redirectUrl("/board/posts" );
+    }
+
+    @GetMapping("/posts2")
     public String dataList(Model model) throws JsonProcessingException {
 
         String url = utils.url("/board_data/list", "api-service");
         System.out.println("url:" + url );
 
-        String token = utils.getToken();
-        if (!StringUtils.hasText(token)) {
-            throw new UnAuthorizedException();
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-
+        HttpHeaders headers = utils.getCommonHeaders("GET");
         HttpEntity<JSONData> request = new HttpEntity<>(headers);
-
 
         ResponseEntity<JSONData> response = restTemplate.exchange(URI.create(url), HttpMethod.GET, request, JSONData.class);
 
-        System.out.println("==========response==============");
-        System.out.println(response);
         if(!response.getStatusCode().toString().contains("200")) {
             throw new RuntimeException("api Server returned: " + response.getStatusCode());
         }
+
         String jsonString = om.writeValueAsString(response.getBody().getData());
         System.out.println("jsonString :" + jsonString);
 
@@ -64,6 +98,25 @@ public class BoardDataController
         System.out.println(items);
 
         model.addAttribute("posts", items);
+        commonProcess("posts", model);
         return "board/posts";
+    }
+
+    private void commonProcess(String mode, Model model) {
+        String pageTitle = "게시판 목록";
+        mode = StringUtils.hasText(mode) ? mode : "list";
+
+        if (mode.equals("add")) {
+            pageTitle = "게시판 등록";
+
+        } else if (mode.equals("edit")) {
+            pageTitle = "게시판 수정";
+
+        } else if (mode.equals("posts")) {
+            pageTitle = "게시글 관리";
+
+        }
+
+        model.addAttribute("pageTitle", pageTitle);
     }
 }

@@ -1,5 +1,7 @@
 package com.jmt.reservation.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jmt.global.entities.BaseEntity;
 import com.jmt.member.entities.Member;
@@ -20,7 +22,9 @@ import java.time.LocalDateTime;
 public class Reservation extends BaseEntity {
     private Long orderNo = System.currentTimeMillis(); // 예약 접수 번호
     private ReservationStatus status;
+    @JsonIgnore
     private Member member;
+    @JsonIgnore
     private Restaurant restaurant;
     private String name; // 예약자명
     private String email; // 예약자 이메일
@@ -28,6 +32,7 @@ public class Reservation extends BaseEntity {
     private String rName; // 식당명
     private String rAddress; // 식당 주소
     private String rTel; // 식당 연락처
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rDateTime; // 예약 일시
     private int price; // 1명당 예약금
     private int persons; // 예약 인원수

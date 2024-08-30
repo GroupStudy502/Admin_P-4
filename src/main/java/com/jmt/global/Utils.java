@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class Utils {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(jwtToken.getToken());
-        if (!List.of("GET", "DELETE").contains(method)) {  //GET, DELETE 외응 모두 body 있다
+        if (!List.of("GET", "DELETE").contains(method)) {  //GET, DELETE 말고 모두 body 있다
             headers.setContentType(MediaType.APPLICATION_JSON);
         }
 
@@ -152,4 +154,11 @@ public class Utils {
         return request.getParameterValues(name);
     }
 
+    public String StringDateFormat(String strDate, String format) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(strDate, formatter);
+
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern(format);
+        return formatter2.format(dateTime);
+    }
 }
