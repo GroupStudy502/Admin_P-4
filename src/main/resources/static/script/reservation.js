@@ -21,8 +21,6 @@ function sendStatus(el) {
     ajaxLoad(url, 'POST', formData, null, 'json')
         .then(res => {
 
-            console.log(res);
-
             if (!res.success) {
                 alert("res.message :" + res.message );
             }else {
