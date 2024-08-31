@@ -56,8 +56,8 @@
                 <th>이메일</th>
                 <th>회원명</th>
                 <th>전화번호</th>
-                <th>권한</th>
-                <th>관리</th>
+                <th>권한관리</th>
+                <th>회원삭제</th>
             </tr>
             </thead>
             <tbody>
@@ -78,8 +78,9 @@
                 </th:block>
                 </td>
                 <td>
-                    <a th:href="${@utils.redirectUrl('/member/edit/' + member.seq)}" class="sbtn"><i class="xi-pen"></i>권한수정</a>
-                    <a th:href="${@utils.redirectUrl('/member/delete/' + member.seq)}" class="sbtn"><i class="xi-pen"></i>회원삭제</a>
+                    <!--<a th:href="${@utils.redirectUrl('/member/edit/' + member.seq)}" class="sbtn"><i class="xi-pen"></i>권한수정</a>
+                    -->
+                    <a th:href="${@utils.redirectUrl('/member/delete/' + member.seq)}" class="sbtn remove" onclick="return confirm('정말 삭제하시겠습니까?');" target="ifrmHidden" ><i class="xi-pen"></i>회원삭제</a>
                 </td>
             </tr>
             </tbody>

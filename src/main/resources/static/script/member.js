@@ -13,6 +13,8 @@ function changeAuth(el) {
 
             if (!res.success) {
                 alert(res.message);
+            }else {
+                alert(res.message);
             }
 
         })
