@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmt.global.Utils;
 import com.jmt.global.rests.JSONData;
+import com.jmt.reservation.controllers.RequestReservationStatus;
 import com.jmt.reservation.entities.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -47,5 +48,24 @@ public class ReservationUpdateService {
         }
         return null;
     }
+    public JSONData updateReservation(RequestReservationStatus form) {
+
+        String url = utils.url("/reservation/admin/update", "api-service");
+        HttpHeaders headers = utils.getCommonHeaders("POST");
+
+        try {
+            String jsonBody = om.writeValueAsString(form);
+            HttpEntity<String> request = new HttpEntity<>(jsonBody, headers);
+            ResponseEntity<JSONData> response = restTemplate.exchange(URI.create(url), HttpMethod.POST, request, JSONData.class);
+            System.out.println("response : " + response);
+
+            return response.getBody();
+
+        } catch (RuntimeException | JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 

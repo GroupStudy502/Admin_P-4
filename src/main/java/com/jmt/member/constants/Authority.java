@@ -1,11 +1,12 @@
 package com.jmt.member.constants;
 
 public enum Authority {
+
     ALL,
     USER,
     ADMIN
+/*
 
-    /*
     ALL("전체"),
     USER("일반"),
     ADMIN("관리자");
@@ -19,6 +20,5 @@ public enum Authority {
     public String getTitle() {
         return title;
     }
-
-     */
+    */
 }

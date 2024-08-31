@@ -16,9 +16,6 @@ public class MemberRestController {
 
     @PostMapping("/authorities/save")
     public JSONData save(RequestAuthority form) {
-        System.out.println("=====form====");
-        System.out.println(form);
-        RequestAuthority memberAuthority = memberService.saveMemberAuthority(form);
-        return new JSONData(memberAuthority);
+        return memberService.saveMemberAuthority(form);
     }
 }

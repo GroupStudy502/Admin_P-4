@@ -6,7 +6,7 @@
 <section layout:fragment="content">
     <div th:replace="~{common/_message::message}"></div>
     <h1>회원관리</h1>
-    <form name="frmSearch" th:action="${@utils.redirectUrl('/member')}" autocomplete="off" th:object="${memberSearch}">
+    <form name="frmSearch" th:action="${@utils.redirectUrl('/member')}" target="ifrmProcess" autocomplete="off" th:object="${memberSearch}">
         <table class="table_cols mb30">
             <tr>
                 <th>키워드</th>
@@ -14,9 +14,8 @@
                     <div class="input_grp">
                         <select name="sopt" th:field="*{sopt}">
                             <option value="ALL">통합검색</option>
-                            <option value="NAME">예약자</option>
+                            <option value="NAME">회원명</option>
                             <option value="EMAIL">이메일</option>
-                            <option value="RNAME">식당명</option>
                         </select>
                         <input type="text" name="skey" th:field="*{skey}">
                     </div>
@@ -35,9 +34,9 @@
                 <td>
                     <div class="input_grp">
                         <select name="sort" th:field="*{sort}">
-                            <option value="orderNo_DESC">최근순</option>
-                            <option value="name_ASC">예약자순</option>
-                            <option value="rName_ASC">제목순</option>
+                            <option value="createdAt_DESC">가입최근순</option>
+                            <option value="userName_ASC">이름순</option>
+                            <option value="email_ASC">이메일</option>
                         </select>
                     </div>
                 </td>

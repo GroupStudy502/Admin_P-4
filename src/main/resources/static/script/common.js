@@ -52,8 +52,8 @@ const commonLib = {
         if (data) options.body = data;
         if (headers) options.headers = headers;
 
-        alert(url);
-        alert(csrfToken);
+        //alert(url);
+        //alert(csrfToken);
         return new Promise((resolve, reject) => {
             fetch(url, options)
                 .then(res => responseType === 'text' ? res.text() : res.json()) // res.json() - JSON / res.text() - 텍스트

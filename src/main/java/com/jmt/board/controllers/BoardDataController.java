@@ -25,7 +25,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,13 +66,16 @@ public class BoardDataController
         System.out.println("mode: " + mode);
         BoardData post = boardDataService.deleteBoardData(seq, mode);
 
+        /* 이건 자바스크립트로 처리하기
         if(post.getSeq() != null && Objects.equals(post.getSeq(), seq)) {
             model.addAttribute("message", "삭제 성공");
         } else {
             model.addAttribute("message", "삭제 실패");
         }
-
-        return "redirect:" + utils.redirectUrl("/board/posts" );
+        */
+        //return "redirect:" + utils.redirectUrl("/board/posts" );
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
     }
 
     @GetMapping("/posts2")
