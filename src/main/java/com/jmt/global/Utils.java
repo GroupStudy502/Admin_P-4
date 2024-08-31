@@ -56,9 +56,10 @@ public class Utils {
     public String url(String url) {
         List<ServiceInstance> instances = discoveryClient.getInstances("admin-service");
         if (instances.isEmpty()) {
-            System.out.println("No services found - 인스턴스 없음 - discoveryClient.getInstances(\"admin-service\") ");
+            //System.out.println("No services found - 인스턴스 없음 - discoveryClient.getInstances(\"admin-service\") ");
             return url;
         }
+        /*
         System.out.println("---discoveryClient instances ---");
         System.out.println(instances);
         System.out.println("-------------------------");
@@ -71,6 +72,7 @@ public class Utils {
             System.out.println("i.getMetadata(): " + i.getMetadata());
 
         });
+         */
         return String.format("%s%s", instances.get(0).getUri().toString(), url);
     }
     public String url(String url, String serviceId) {

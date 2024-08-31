@@ -24,4 +24,8 @@ public enum ReservationStatus {
                 new String[] {REFUND.name(), REFUND.title}
         );
     }
+
+    public String getTitle() {
+        return title;
+    }
 }

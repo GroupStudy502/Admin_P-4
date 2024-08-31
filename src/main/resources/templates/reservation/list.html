@@ -7,7 +7,7 @@
     <div th:replace="~{common/_message::message}"></div>
     <h1>예약관리</h1>
     <h2>예약 조회</h2>
-    <form name="frmSearch" th:action="${@utils.redirectUrl('/reservation')}" autocomplete="off" th:object="${reservationSearch}">
+    <form name="frmSearch" th:action="${@utils.redirectUrl('/reservation')}" target="ifrmProcess" autocomplete="off" th:object="${reservationSearch}">
         <table class="table_cols mb30">
             <tr>
                 <th>키워드</th>
@@ -58,10 +58,10 @@
                 <th>이메일</th>
                 <th>전화번호</th>
                 <th>식당명</th>
-                <th>식당연락처</th>
+                <th>예약상태</th>
                 <th>예약일시</th>
                 <th>인원수</th>
-                <th>얘약금</th>
+                <th>예약금</th>
                 <th>예약관리</th>
             </tr>
             </thead>
@@ -71,13 +71,24 @@
                 <td th:text="*{email}"></td>
                 <td th:text="*{mobile}"></td>
                 <td th:text="*{rName}"></td>
-                <td th:text="*{rTel}"></td>
+                <!--<td th:text="${item.status.title}"></td>-->
+                <td>
+                <select th:name="*{'p_' + orderNo}" onchange="changeStatus(this)">
+                    <option th:each="status : ${statuses}" th:object="${status}" th:value="*{name}" th:selected="${item.status.title==status.title}" th:text="*{title}"></option>
+                </select>
+                </td>
                 <!--<td th:text="*{@utils.StringDateFormat(rdateTime, 'yyyy-MM-dd일 HH시')}"></td>-->
                 <td th:text="*{#temporals.format(rDateTime, 'yyyy.MM.dd일 HH시')}"></td>
                 <td th:text="*{persons}"></td>
                 <td th:text="*{#numbers.formatInteger(price,3, 'COMMA')}"></td>
                 <td>
-                    <button type="submit" class="sbtn"><i class="xi-pen"></i>변경</button>
+                    <a href="#"
+                       onclick="sendStatus(this);" class="sbtn"
+                       th:id="*{'p_' + orderNo}"
+                       th:data-orderno="${item.orderNo}"
+                       data-url="/status/update"
+                       data-status="" target="ifrmHidden"><i class="xi-pen"></i>상태변경</a>
+
                     <a th:href="${@utils.redirectUrl('/reservation/delete/' + item.orderNo )}" class="sbtn" target="ifrmHidden"><i class="xi-pen"></i>삭제</a>
                 </td>
             </tr>

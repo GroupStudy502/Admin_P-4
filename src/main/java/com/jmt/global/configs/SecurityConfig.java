@@ -35,6 +35,7 @@ public class SecurityConfig {
                                     "/api/board/config/**",
                                     "/member/aaa/save",
                                     "/member/authorities/save",
+                                    "/reservation/**",
                                     "/api/config/**").permitAll()
                             .anyRequest().hasAnyAuthority("ADMIN");
                 });
