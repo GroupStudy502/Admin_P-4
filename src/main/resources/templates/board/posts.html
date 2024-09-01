@@ -74,9 +74,10 @@
             <td th:if="*{#strings.length(content) < 40}" th:text="*{content}"></td>
             <td th:text="*{deletedAt}"></td>
             <td>
-                <a th:href="${@utils.redirectUrl('/board/posts/update/' + post.seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
-                <a th:if="*{deletedAt == null}" th:href="${@utils.redirectUrl('/board/posts/delete/' + post.seq + '?mode=delete')}" class="sbtn"><i class="xi-pen"></i>글삭제</a>
-                <a th:if="*{deletedAt != null}" th:href="${@utils.redirectUrl('/board/posts/delete/' + post.seq + '?mode=complete')}" class="sbtn"><i class="xi-pen"></i>완전삭제</a>
+                <!--<a th:href="${@utils.redirectUrl('/board/posts/update/' + post.seq)}" class="sbtn"><i class="xi-pen"></i>글수정</a>
+                -->
+                <a th:if="*{deletedAt == null}" th:href="${@utils.redirectUrl('/board/posts/delete/' + post.seq + '?mode=delete')}" onclick="return confirm('정말 삭제하시겠습니까?');" target="ifrmHidden" class="sbtn"><i class="xi-pen"></i>글삭제</a>
+                <a th:if="*{deletedAt != null}" th:href="${@utils.redirectUrl('/board/posts/delete/' + post.seq + '?mode=complete')}" onclick="return confirm('정말 삭제하시겠습니까?');" target="ifrmHidden" class="sbtn"><i class="xi-pen"></i>완전삭제</a>
             </td>
         </tr>
         </tbody>
