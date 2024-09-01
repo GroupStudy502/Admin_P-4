@@ -31,7 +31,6 @@ public class MemberController {
         model.addAttribute("allAuthorities", allAuthorities);
         model.addAttribute("addScript", List.of("member"));
 
-
         return "member/list";
     }
 
